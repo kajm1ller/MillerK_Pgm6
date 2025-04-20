@@ -29,11 +29,11 @@ private:
 	C comparator; // comparator function; provided by the client and used in
 	// bubbleUp and bubbleDown methods
 	// private utility/helper methods
-	int getLeftIndex(int)const;
-	int getRightIndex(int)const;
+	int getLeftIndex(int index)const;
+	int getRightIndex(int index)const;
 	int getParentIndex(int)const;
-	void bubbleUp(int);
-	void bubbleDown(int);
+	void bubbleUp(int nodeIndex);
+	void bubbleDown(int nodeIndex);
 	void resizeArray(int);
 };
 #endif
