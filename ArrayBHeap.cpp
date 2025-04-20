@@ -67,21 +67,13 @@ void ArrayBHeap<T, C>::printHeap() const
 template<typename T, typename C>
 int ArrayBHeap<T, C>::getLeftIndex(int index) const
 {
-	if (pArray[2 * index + 1] == nullptr) {
-		std::cout << "invalid index";
-		return 0;
-	}
-	return pArray[2 * index + 1];
+	return 2 * index + 1
 }
 
 template<typename T, typename C>
 int ArrayBHeap<T, C>::getRightIndex(int index) const
 {
-	if (pArray[2 * index + 2] == nullptr) {
-		std::cout << "invalid index";
-		return 0;
-	}
-	return pArray[2 * index + 2];
+	return 2 * index + 2;
 }
 
 template<typename T, typename C>
