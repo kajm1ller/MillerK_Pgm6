@@ -56,6 +56,9 @@ void ArrayBHeap<T, C>::empty()
 template<typename T, typename C>
 bool ArrayBHeap<T, C>::isEmpty() const
 {
+	if (heapSize == 0) {
+		return true;
+	}
 	return false;
 }
 
