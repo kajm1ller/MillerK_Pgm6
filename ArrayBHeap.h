@@ -11,7 +11,7 @@ class ArrayBHeap : public BinaryHeapInterface<T>
 {
 public:
 	ArrayBHeap();
-	ArrayBHeap(const ArrayBHeap<T, C>&);
+	ArrayBHeap(const ArrayBHeap<T, C>& todd);
 	~ArrayBHeap();
     ArrayBHeap<T, C>& operator=(const ArrayBHeap<T, C>& other) {  
        if (this != &other) { // Check for self-assignment  

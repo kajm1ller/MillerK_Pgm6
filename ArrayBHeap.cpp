@@ -13,12 +13,12 @@ ArrayBHeap<T, C>::ArrayBHeap() {
 }
 
 template <typename T, typename C>
-ArrayBHeap<T, C>::ArrayBHeap(const ArrayBHeap<T, C>&) {
-	pArray = this->pArray;
-	arraySize = this->arraySize;
-	heapSize = this->heapSize;
-	free = this->free;
-	comparator = this->comparator;
+ArrayBHeap<T, C>::ArrayBHeap(const ArrayBHeap<T, C>& todd) {
+	pArray = todd.pArray;
+	arraySize = todd.arraySize;
+	heapSize = todd.heapSize;
+	free = todd.free;
+	comparator = todd.comparator;
 }
 
 template <typename T, typename C>
@@ -44,7 +44,7 @@ void ArrayBHeap<T, C>::buildHeap(const std::vector<T> input)
 
 	// Copy elements from input vector to the array  
 	for (int i = 0; i < heapSize; ++i) {
-		pArray[i] = input[i];
+		pArray[i] = input.at(i);
 	}
 
 	// Perform heapify operation  
@@ -54,13 +54,14 @@ void ArrayBHeap<T, C>::buildHeap(const std::vector<T> input)
 }
 
 template<typename T, typename C>
-void ArrayBHeap<T, C>::insert(const T&)
+void ArrayBHeap<T, C>::insert(const T& x)
 {
 	if (arraySize == heapSize) {
 		resizeArray(arraySize * 2);
+		arraySize = arraySize * 2;
 	}
 	else {
-		pArray[free] = T();
+		pArray[free] = x;
 		free++;
 		heapSize++;
 		bubbleUp(free - 1);
@@ -97,9 +98,10 @@ bool ArrayBHeap<T, C>::isEmpty() const
 template<typename T, typename C>
 void ArrayBHeap<T, C>::printHeap() const
 {
-	for (int i = (arraySize - heapSize); i < arraySize; i++) {
+	for (int i = 0; i < heapSize; ++i) {
 		std::cout << pArray[i] << " ";
 	}
+	std::cout << std::endl;
 }
 
 template<typename T, typename C>
@@ -123,7 +125,7 @@ int ArrayBHeap<T, C>::getParentIndex(int index) const
 template<typename T, typename C>
 void ArrayBHeap<T, C>::bubbleUp(int nodeIndex)
 {
-	int parentIndex;
+	int parentIndex = 0;
 
 	while (nodeIndex > 0) {
 		parentIndex = (nodeIndex - 1) / 2;
