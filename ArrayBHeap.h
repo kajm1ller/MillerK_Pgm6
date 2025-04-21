@@ -14,7 +14,7 @@ public:
 		return pArray == this->pArray;
 	
 	};
-	void buildHeap(const T*, int);
+	void buildHeap(const std::vector<T> input);
 	void insert(const T&) override;
 	T removeMin() override;
 	void empty() override;
@@ -26,8 +26,8 @@ private:
 	int arraySize; // maximum size heap that array can accommodate
 	int heapSize; // actual number of elements on the heap
 	int free; // next spot available for an item
-	C comparator; // comparator function; provided by the client and used in
-	// bubbleUp and bubbleDown methods
+	C comparator; // comparator function; provided by the client and used in bubbleUp and bubbleDown methods
+
 	// private utility/helper methods
 	int getLeftIndex(int index)const;
 	int getRightIndex(int index)const;

@@ -1,6 +1,7 @@
 #include "BinaryHeapInterface.h"
 #include "ArrayBHeap.h"
 #include <iostream>
+#include <vector>
 
 template <typename T, typename C>
 ArrayBHeap<T, C>::ArrayBHeap() {
@@ -20,8 +21,6 @@ ArrayBHeap<T, C>::ArrayBHeap(const ArrayBHeap<T, C>&) {
 	comparator = this->comparator;
 }
 
-// This Shit Fucked Up!
-
 template <typename T, typename C>
 ArrayBHeap<T, C>::~ArrayBHeap() {
 	delete[] pArray;
@@ -31,10 +30,27 @@ ArrayBHeap<T, C>::~ArrayBHeap() {
 
 }
 
-template<typename T, typename C>
-void ArrayBHeap<T, C>::buildHeap(const T*, int)
-{
+template<typename T, typename C>  
+void ArrayBHeap<T, C>::buildHeap(const std::vector<T>& input)  
+{  
+   // Clear the current heap  
+   delete[] pArray;  
+   heapSize = input.size();  
+   arraySize = heapSize;  
+   free = heapSize;  
 
+   // Allocate new array  
+   pArray = new T[heapSize];  
+
+   // Copy elements from input vector to the array  
+   for (int i = 0; i < heapSize; ++i) {  
+       pArray[i] = input[i];  
+   }  
+
+   // Perform heapify operation  
+   for (int i = (heapSize / 2) - 1; i >= 0; --i) {  
+       bubbleDown(i);  
+   }  
 }
 
 template<typename T, typename C>
@@ -51,6 +67,10 @@ T ArrayBHeap<T, C>::removeMin()
 template<typename T, typename C>
 void ArrayBHeap<T, C>::empty()
 {
+	~ArrayBHeap();
+	heapSize = 0;
+	free = 0;
+
 }
 
 template<typename T, typename C>
