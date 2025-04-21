@@ -1,4 +1,18 @@
 #pragma once
+// Add the following comparator class to define compareint  
+template <typename T>  
+struct compareint {  
+   bool operator()(const T& lhs, const T& rhs) const {  
+       return lhs < rhs; // Min-heap comparison  
+   }  
+};
+
+template <typename T>
+struct comparedouble {
+	bool operator()(const T& lhs, const T& rhs) const {
+		return lhs < rhs; // Min-heap comparison
+	}
+};
 #ifndef BINARY_HEAP_INTERFACE_H
 #define BINARY_HEAP_INTERFACE_H
 

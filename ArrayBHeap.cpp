@@ -5,11 +5,11 @@
 
 template <typename T, typename C>
 ArrayBHeap<T, C>::ArrayBHeap() {
-	pArray = new T*[0];
+	pArray = new T[0];
 	arraySize = 0;
 	heapSize = 0;
 	free = 0;
-	comparator = new C(nullptr);
+	comparator = C();
 }
 
 template <typename T, typename C>
@@ -56,6 +56,16 @@ void ArrayBHeap<T, C>::buildHeap(const std::vector<T> input)
 template<typename T, typename C>
 void ArrayBHeap<T, C>::insert(const T&)
 {
+	if (arraySize == heapSize) {
+		resizeArray(arraySize * 2);
+	}
+	else {
+		pArray[free] = T();
+		free++;
+		heapSize++;
+		bubbleUp(free - 1);
+	}
+
 }
 
 template<typename T, typename C>
@@ -67,10 +77,12 @@ T ArrayBHeap<T, C>::removeMin()
 template<typename T, typename C>
 void ArrayBHeap<T, C>::empty()
 {
-	~ArrayBHeap();
+	// Properly clear the heap
+	delete[] pArray;
+	pArray = nullptr; // Avoid dangling pointer
 	heapSize = 0;
+	arraySize = 0;
 	free = 0;
-
 }
 
 template<typename T, typename C>
@@ -85,6 +97,9 @@ bool ArrayBHeap<T, C>::isEmpty() const
 template<typename T, typename C>
 void ArrayBHeap<T, C>::printHeap() const
 {
+	for (int i = (arraySize - heapSize); i < arraySize; i++) {
+		std::cout << pArray[i] << " ";
+	}
 }
 
 template<typename T, typename C>
@@ -97,6 +112,12 @@ template<typename T, typename C>
 int ArrayBHeap<T, C>::getRightIndex(int index) const
 {
 	return 2 * index + 2;
+}
+
+template<typename T, typename C>
+int ArrayBHeap<T, C>::getParentIndex(int index) const
+{
+	return index / 2;
 }
 
 template<typename T, typename C>
@@ -153,3 +174,19 @@ void ArrayBHeap<T, C>::bubbleDown(int nodeIndex)
 		}
 	}
 }
+
+template<typename T, typename C>
+void ArrayBHeap<T, C>::resizeArray(int)
+{
+	T* newArray = new T[arraySize * 2];
+	for (int i = 0; i < arraySize; i++) {
+		newArray[i] = pArray[i];
+	}
+	delete[] pArray;
+	pArray = newArray;
+	arraySize *= 2;
+
+}
+
+template class ArrayBHeap<int, compareint<int>>;
+template class ArrayBHeap<double, compareint<double>>;
