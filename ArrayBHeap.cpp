@@ -30,27 +30,27 @@ ArrayBHeap<T, C>::~ArrayBHeap() {
 
 }
 
-template<typename T, typename C>  
-void ArrayBHeap<T, C>::buildHeap(const std::vector<T>& input)  
-{  
-   // Clear the current heap  
-   delete[] pArray;  
-   heapSize = input.size();  
-   arraySize = heapSize;  
-   free = heapSize;  
+template<typename T, typename C>
+void ArrayBHeap<T, C>::buildHeap(const std::vector<T> input)
+{
+	// Clear the current heap  
+	delete[] pArray;
+	heapSize = input.size();
+	arraySize = heapSize;
+	free = heapSize;
 
-   // Allocate new array  
-   pArray = new T[heapSize];  
+	// Allocate new array  
+	pArray = new T[heapSize];
 
-   // Copy elements from input vector to the array  
-   for (int i = 0; i < heapSize; ++i) {  
-       pArray[i] = input[i];  
-   }  
+	// Copy elements from input vector to the array  
+	for (int i = 0; i < heapSize; ++i) {
+		pArray[i] = input[i];
+	}
 
-   // Perform heapify operation  
-   for (int i = (heapSize / 2) - 1; i >= 0; --i) {  
-       bubbleDown(i);  
-   }  
+	// Perform heapify operation  
+	for (int i = (heapSize / 2) - 1; i >= 0; --i) {
+		bubbleDown(i);
+	}
 }
 
 template<typename T, typename C>
@@ -90,7 +90,7 @@ void ArrayBHeap<T, C>::printHeap() const
 template<typename T, typename C>
 int ArrayBHeap<T, C>::getLeftIndex(int index) const
 {
-	return 2 * index + 1
+	return 2 * index + 1;
 }
 
 template<typename T, typename C>

@@ -3,6 +3,8 @@
 #ifndef ARRAY_B_HEAP_H
 #define ARRAY_B_HEAP_H
 #include "BinaryHeapInterface.h"
+#include <vector>
+
 template <typename T, typename C>
 class ArrayBHeap : public BinaryHeapInterface<T>
 {
