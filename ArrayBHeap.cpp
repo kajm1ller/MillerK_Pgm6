@@ -47,10 +47,38 @@ void ArrayBHeap<T, C>::buildHeap(const std::vector<T> input)
 		pArray[i] = input.at(i);
 	}
 
+
 	// Perform heapify operation  
 	for (int i = (heapSize / 2) - 1; i >= 0; --i) {
-		bubbleDown(i);
+		heapify(pArray, heapSize, i);
 	}
+}
+
+
+
+template <typename T, typename C>
+void ArrayBHeap<T, C>::heapify(int arr[], int n, int i) {
+    int largest = i; // Initialize largest as root
+    int left = 2 * i + 1; // left child index
+    int right = 2 * i + 2; // right child index
+
+    // If left child is larger than root
+    if (left < n && arr[left] > arr[largest]) {
+        largest = left;
+    }
+
+    // If right child is larger than largest so far
+    if (right < n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+
+    // If largest is not root
+    if (largest != i) {
+        std::swap(arr[i], arr[largest]);
+
+        // Recursively heapify the affected sub-tree
+        heapify(arr, n, largest);
+    }
 }
 
 template<typename T, typename C>
@@ -60,19 +88,22 @@ void ArrayBHeap<T, C>::insert(const T& x)
 		resizeArray(arraySize * 2);
 		arraySize = arraySize * 2;
 	}
-	else {
+	
 		pArray[free] = x;
 		free++;
 		heapSize++;
 		bubbleUp(free - 1);
-	}
 
 }
 
 template<typename T, typename C>
 T ArrayBHeap<T, C>::removeMin()
 {
-	return T();
+	int min = pArray[heapSize - 1];
+	pArray[heapSize - 1] = 0;
+	free--;
+	heapSize--;
+	return min;
 }
 
 template<typename T, typename C>
@@ -104,6 +135,7 @@ void ArrayBHeap<T, C>::printHeap() const
 	std::cout << std::endl;
 }
 
+
 template<typename T, typename C>
 int ArrayBHeap<T, C>::getLeftIndex(int index) const
 {
@@ -127,8 +159,7 @@ void ArrayBHeap<T, C>::bubbleUp(int nodeIndex)
 {
 	int parentIndex = 0;
 
-	while (nodeIndex > 0) {
-		parentIndex = (nodeIndex - 1) / 2;
+	while (nodeIndex < 0) { // changed this from greater to less than. Don't know what consequences this will bring.		parentIndex = (nodeIndex - 1) / 2;
 	}
 
 	if (pArray[nodeIndex] <= pArray[parentIndex]) {
@@ -191,4 +222,3 @@ void ArrayBHeap<T, C>::resizeArray(int)
 }
 
 template class ArrayBHeap<int, compareint<int>>;
-template class ArrayBHeap<double, compareint<double>>;

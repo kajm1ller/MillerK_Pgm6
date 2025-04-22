@@ -13,34 +13,14 @@ public:
 	ArrayBHeap();
 	ArrayBHeap(const ArrayBHeap<T, C>& todd);
 	~ArrayBHeap();
-    ArrayBHeap<T, C>& operator=(const ArrayBHeap<T, C>& other) {  
-       if (this != &other) { // Check for self-assignment  
-           // Free existing resources  
-           delete[] pArray;  
-
-           // Copy data from the other object  
-           arraySize = other.arraySize;  
-           heapSize = other.heapSize;  
-           free = other.free;  
-           comparator = other.comparator;  
-
-           // Allocate new memory and copy the array  
-           pArray = new T[arraySize];  
-           if (heapSize > arraySize) {  
-               throw std::out_of_range("Heap size exceeds array size during assignment.");  
-           }  
-           for (int i = 0; i < heapSize; ++i) {  
-               pArray[i] = other.pArray[i];  
-           }  
-       }  
-       return *this; // Return a reference to the current object  
-    }
+	ArrayBHeap<T, C>& operator=(const ArrayBHeap<T, C>& other);
 	void buildHeap(const std::vector<T> input);
 	void insert(const T&) override;
 	T removeMin() override;
 	void empty() override;
 	bool isEmpty()const override;
 	void printHeap()const;
+	void heapify(int arr[], int n, int i);
 private:
 	// data elements
 	T* pArray; // heap storage array, dynamically allocated
@@ -56,5 +36,29 @@ private:
 	void bubbleUp(int nodeIndex);
 	void bubbleDown(int nodeIndex);
 	void resizeArray(int);
+};
+
+template <typename T, typename C>
+ArrayBHeap<T, C>& ArrayBHeap<T, C>::operator=(const ArrayBHeap<T, C>& other) {
+	if (this != &other) { // Check for self-assignment  
+		// Free existing resources  
+		delete[] pArray;
+
+		// Copy data from the other object  
+		arraySize = other.arraySize;
+		heapSize = other.heapSize;
+		free = other.free;
+		comparator = other.comparator;
+
+		// Allocate new memory and copy the array  
+		pArray = new T[arraySize];
+		if (heapSize > arraySize) {
+			throw std::out_of_range("Heap size exceeds array size during assignment.");
+		}
+		for (int i = 0; i < heapSize; ++i) {
+			pArray[i] = other.pArray[i];
+		}
+	}
+	return *this; // Return a reference to the current object  
 };
 #endif
