@@ -5,6 +5,7 @@
 #include "BinaryHeapInterface.h"
 #include <vector>
 #include <stdexcept>
+#include <string>
 
 template <typename T, typename C>
 class ArrayBHeap : public BinaryHeapInterface<T>

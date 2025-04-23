@@ -2,6 +2,7 @@
 #include "BinaryHeapInterface.h"
 #include "ArrayBHeap.h"
 #include <vector>
+#include <string>
 
 int main() {
 
@@ -54,6 +55,7 @@ int main() {
 	std::cout << "-------------------------" << std::endl;
 	std::cout << "Current Array Size: " << stringHeap.getArraySize() << std::endl;
 	std::cout << "Current Heap Size: " << stringHeap.getHeapSize() << std::endl;
+
 
 
 

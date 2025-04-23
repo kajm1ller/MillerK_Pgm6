@@ -1,5 +1,7 @@
-#include <string>
 #pragma once
+
+#include <string>
+
 // Add the following comparator class to define compareint  
 template <typename T>  
 struct compareint {  
@@ -15,10 +17,10 @@ struct comparedouble {
 	}
 };
 
-template <typename T>
+template <typename T> // I keep getting fucking linker errors because of this
 struct comparestring {
-	bool operator()(const std::string& lhs, const std::string& rhs) const {
-		return lhs.length() < rhs.length();
+	bool operator()(const T& lhs, const T& rhs) const {
+		return sizeof(lhs) < sizeof(rhs);
 	}
 };
 #ifndef BINARY_HEAP_INTERFACE_H

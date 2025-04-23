@@ -2,6 +2,7 @@
 #include "ArrayBHeap.h"
 #include <iostream>
 #include <vector>
+#include <string>
 
 template <typename T, typename C>
 ArrayBHeap<T, C>::ArrayBHeap() {
@@ -13,7 +14,7 @@ ArrayBHeap<T, C>::ArrayBHeap() {
 }
 
 template <typename T, typename C>
-ArrayBHeap<T, C>::ArrayBHeap(const ArrayBHeap<T, C>& todd) {
+ArrayBHeap<T, C>::ArrayBHeap(const ArrayBHeap<T, C>& todd) { // change this from todd to an actual variable name you fucking moron
 	pArray = todd.pArray;
 	arraySize = todd.arraySize;
 	heapSize = todd.heapSize;
@@ -244,4 +245,5 @@ void ArrayBHeap<T, C>::resizeArray(int newCapacity) // Pass the desired new capa
 }
 
 template class ArrayBHeap<int, compareint<int>>;
-template class ArrayBHeap<std::string, comparestring<std::string>>;
+template class ArrayBHeap<int, comparestring<std::string>>;
+
