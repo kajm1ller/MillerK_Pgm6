@@ -1,7 +1,6 @@
 #include <iostream>
 #include "BinaryHeapInterface.h"
 #include "ArrayBHeap.h"
-#include <iostream>
 #include <vector>
 
 int main() {
@@ -48,6 +47,14 @@ int main() {
 	std::cout << "Empty heap" << std::endl;
 	heap.empty();
 	heap.printHeap();
+
+	std::vector<std::string> sv = { "snake", "dog", "elephant", "rabbit", "bear" };
+	ArrayBHeap<std::string, compareint<std::string>> stringHeap;
+	stringHeap.buildHeap(sv);
+	std::cout << "-------------------------" << std::endl;
+	std::cout << "Current Array Size: " << stringHeap.getArraySize() << std::endl;
+	std::cout << "Current Heap Size: " << stringHeap.getHeapSize() << std::endl;
+
 
 
 	return 0;

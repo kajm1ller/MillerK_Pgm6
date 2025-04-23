@@ -33,84 +33,97 @@ ArrayBHeap<T, C>::~ArrayBHeap() {
 template<typename T, typename C>
 void ArrayBHeap<T, C>::buildHeap(const std::vector<T> input)
 {
-	// Clear the current heap  
+	// Clear the current heap
 	delete[] pArray;
 	heapSize = input.size();
-	arraySize = heapSize;
+	// Ensure sufficient capacity - start with input size or a bit more
+	arraySize = heapSize > 0 ? heapSize : 10; // Start with input size or a default
 	free = heapSize;
 
-	// Allocate new array  
-	pArray = new T[heapSize];
+	// Allocate new array
+	pArray = new T[arraySize]; // Use arraySize for allocation
 
-	// Copy elements from input vector to the array  
+	// Copy elements from input vector to the array
 	for (int i = 0; i < heapSize; ++i) {
 		pArray[i] = input.at(i);
 	}
 
-
-	// Perform heapify operation  
+	// Perform heapify operation using bubbleDown
+	// Start from the last non-leaf node and go up to the root
 	for (int i = (heapSize / 2) - 1; i >= 0; --i) {
-		heapify(pArray, heapSize, i);
+		bubbleDown(i); // Use bubbleDown to establish heap property
 	}
 }
 
-
-
 template <typename T, typename C>
-void ArrayBHeap<T, C>::heapify(int arr[], int n, int i) {
-    int largest = i; // Initialize largest as root
-    int left = 2 * i + 1; // left child index
-    int right = 2 * i + 2; // right child index
+void ArrayBHeap<T, C>::heapify(T* arr, int n, int i) {
+	int largest = i; 
+	int left = 2 * i + 1; 
+	int right = 2 * i + 2; 
 
-    // If left child is larger than root
-    if (left < n && arr[left] > arr[largest]) {
-        largest = left;
-    }
+	// If left child is larger than root
+	if (left < n && arr[left] > arr[largest]) { 
+		largest = left;
+	}
 
-    // If right child is larger than largest so far
-    if (right < n && arr[right] > arr[largest]) {
-        largest = right;
-    }
+	// If right child is larger than largest so far
+	if (right < n && arr[right] > arr[largest]) { 
+		largest = right;
+	}
 
-    // If largest is not root
-    if (largest != i) {
-        std::swap(arr[i], arr[largest]);
+	// If largest is not root
+	if (largest != i) {
+		std::swap(arr[i], arr[largest]); // Swaps the root with the largest child 
 
-        // Recursively heapify the affected sub-tree
-        heapify(arr, n, largest);
-    }
+		// Recursively heapify the affected sub-tree
+		heapify(arr, n, largest); 
+	}
 }
 
 template<typename T, typename C>
 void ArrayBHeap<T, C>::insert(const T& x)
 {
-	if (arraySize == heapSize) {
-		resizeArray(arraySize * 2);
-		arraySize = arraySize * 2;
+	// If the array is full (heapSize reaches arraySize)
+	if (heapSize == arraySize) {
+		// Resize: Double the capacity or add a fixed amount
+		int newCapacity = (arraySize == 0) ? 10 : arraySize * 2; // Handle initial size 0
+		resizeArray(newCapacity);
+		
 	}
-	
-		pArray[free] = x;
-		free++;
-		heapSize++;
-		bubbleUp(free - 1);
 
+	pArray[heapSize] = x; // Insert at the current heapSize index
+
+	// Bubble up the new element to its correct position
+	bubbleUp(heapSize);
+
+	// Increment the heap size
+	heapSize++;
 }
 
 template<typename T, typename C>
 T ArrayBHeap<T, C>::removeMin()
 {
-	int min = pArray[heapSize - 1];
-	pArray[heapSize - 1] = 0;
-	free--;
+	if (isEmpty()) {
+	
+		throw std::out_of_range("Heap is empty, cannot remove minimum.");
+	}
+
+	T minElement = pArray[0];
+	pArray[0] = pArray[heapSize - 1];
 	heapSize--;
-	return min;
+	
+	if (heapSize > 0) { 
+		bubbleDown(0);
+	}
+
+	return minElement;
 }
 
 template<typename T, typename C>
 void ArrayBHeap<T, C>::empty()
 {
-	// Properly clear the heap
-	delete[] pArray;
+	
+	delete[] pArray; // Properly clear the heap
 	pArray = nullptr; // Avoid dangling pointer
 	heapSize = 0;
 	arraySize = 0;
@@ -118,7 +131,7 @@ void ArrayBHeap<T, C>::empty()
 }
 
 template<typename T, typename C>
-bool ArrayBHeap<T, C>::isEmpty() const
+bool ArrayBHeap<T, C>::isEmpty() const // self explanatory
 {
 	if (heapSize == 0) {
 		return true;
@@ -129,12 +142,16 @@ bool ArrayBHeap<T, C>::isEmpty() const
 template<typename T, typename C>
 void ArrayBHeap<T, C>::printHeap() const
 {
-	for (int i = 0; i < heapSize; ++i) {
-		std::cout << pArray[i] << " ";
+	if (heapSize == 0) {
+		std::cout << "Heap Is Empty" << std::endl;
+	}
+	else {
+		for (int i = 0; i < heapSize; ++i) {
+			std::cout << pArray[i] << " ";
+		}
 	}
 	std::cout << std::endl;
 }
-
 
 template<typename T, typename C>
 int ArrayBHeap<T, C>::getLeftIndex(int index) const
@@ -148,77 +165,83 @@ int ArrayBHeap<T, C>::getRightIndex(int index) const
 	return 2 * index + 2;
 }
 
+// 6. Fix getParentIndex
 template<typename T, typename C>
 int ArrayBHeap<T, C>::getParentIndex(int index) const
 {
-	return index / 2;
+	return (index - 1) / 2;
 }
 
 template<typename T, typename C>
 void ArrayBHeap<T, C>::bubbleUp(int nodeIndex)
 {
-	int parentIndex = 0;
+	int parentIndex;
+	// Loop while the node is not the root
+	while (nodeIndex > 0) {
+		parentIndex = (nodeIndex - 1) / 2; // Calculate parent index
 
-	while (nodeIndex < 0) { // changed this from greater to less than. Don't know what consequences this will bring.		parentIndex = (nodeIndex - 1) / 2;
-	}
-
-	if (pArray[nodeIndex] <= pArray[parentIndex]) {
-		return; 
-	} 
-	else {
-		int temp = pArray[nodeIndex];
-		pArray[nodeIndex] = pArray[parentIndex];
-		pArray[parentIndex] = temp;
-		nodeIndex = parentIndex;
+		// Use the comparator: If child is smaller than parent (higher priority for min-heap)
+		if (comparator(pArray[nodeIndex], pArray[parentIndex])) {
+			// Swap child and parent
+			std::swap(pArray[nodeIndex], pArray[parentIndex]);
+			// Move up to the parent's index
+			nodeIndex = parentIndex;
+		}
+		else {
+			
+			return;
+		}
 	}
 }
-
 
 template<typename T, typename C>
 void ArrayBHeap<T, C>::bubbleDown(int nodeIndex)
 {
-	int childIndex = 2 * nodeIndex + 1;
-	int value = pArray[nodeIndex];
+	int leftChildIndex;
+	int rightChildIndex;
+	int targetIndex; // Index of the child to potentially swap with
 
-	while (childIndex < heapSize) {
-		
-		int maxValue = value;
-		int maxIndex = -1;
-		for (int i = 0; i < 2 && i + childIndex < heapSize; i++) {
-			if (pArray[i + childIndex] > maxValue) {
-				maxValue = pArray[i + childIndex];
-				maxIndex = i + childIndex;
-			}
+	while (true) { // Loop until node is in correct position
+		leftChildIndex = getLeftIndex(nodeIndex);
+		rightChildIndex = getRightIndex(nodeIndex);
+		targetIndex = nodeIndex; // Assume parent is smallest initially
+
+		// Check left child: if exists and is smaller than current target
+		if (leftChildIndex < heapSize && comparator(pArray[leftChildIndex], pArray[targetIndex])) {
+			targetIndex = leftChildIndex;
 		}
 
-		if (maxValue == value) {
-			
-			return;
+		// Check right child: if exists and is smaller than current target
+		if (rightChildIndex < heapSize && comparator(pArray[rightChildIndex], pArray[targetIndex])) {
+			targetIndex = rightChildIndex;
 		}
 
+		// If the smallest element is one of the children, swap and continue down
+		if (targetIndex != nodeIndex) {
+			std::swap(pArray[nodeIndex], pArray[targetIndex]);
+			nodeIndex = targetIndex; // Move down to the child's position
+		}
 		else {
-			
-			int temp = pArray[nodeIndex];
-			pArray[nodeIndex] = pArray[maxIndex];
-			pArray[maxIndex] = temp;
-
-			nodeIndex = maxIndex;
-			childIndex = 2 * nodeIndex + 1;
+			// Node is smaller than both children (or has no children), heap property holds
+			break; 
 		}
 	}
 }
 
 template<typename T, typename C>
-void ArrayBHeap<T, C>::resizeArray(int)
+void ArrayBHeap<T, C>::resizeArray(int newCapacity) // Pass the desired new capacity
 {
-	T* newArray = new T[arraySize * 2];
-	for (int i = 0; i < arraySize; i++) {
+	if (newCapacity <= arraySize) return; // Only resize if increasing capacity
+
+	T* newArray = new T[newCapacity];
+	// Copy existing elements up to heapSize
+	for (int i = 0; i < heapSize; i++) {
 		newArray[i] = pArray[i];
 	}
 	delete[] pArray;
 	pArray = newArray;
-	arraySize *= 2;
-
+	arraySize = newCapacity; // Update arraySize to the new capacity
 }
 
 template class ArrayBHeap<int, compareint<int>>;
+template class ArrayBHeap<std::string, compareint<std::string>>;
