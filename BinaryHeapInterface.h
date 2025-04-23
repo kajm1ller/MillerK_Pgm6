@@ -1,3 +1,4 @@
+#include <string>
 #pragma once
 // Add the following comparator class to define compareint  
 template <typename T>  
@@ -11,6 +12,13 @@ template <typename T>
 struct comparedouble {
 	bool operator()(const T& lhs, const T& rhs) const {
 		return lhs < rhs; // Min-heap comparison
+	}
+};
+
+template <typename T>
+struct comparestring {
+	bool operator()(const std::string& lhs, const std::string& rhs) const {
+		return lhs.length() < rhs.length();
 	}
 };
 #ifndef BINARY_HEAP_INTERFACE_H

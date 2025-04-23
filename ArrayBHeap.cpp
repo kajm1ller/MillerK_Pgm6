@@ -244,4 +244,4 @@ void ArrayBHeap<T, C>::resizeArray(int newCapacity) // Pass the desired new capa
 }
 
 template class ArrayBHeap<int, compareint<int>>;
-template class ArrayBHeap<std::string, compareint<std::string>>;
+template class ArrayBHeap<std::string, comparestring<std::string>>;
