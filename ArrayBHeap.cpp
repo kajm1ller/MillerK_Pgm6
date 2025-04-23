@@ -1,8 +1,11 @@
 #include "BinaryHeapInterface.h"
 #include "ArrayBHeap.h"
+#include "Sumo.h"
 #include <iostream>
 #include <vector>
 #include <string>
+#include <utility> // for std::swap
+
 
 template <typename T, typename C>
 ArrayBHeap<T, C>::ArrayBHeap() {
@@ -58,26 +61,28 @@ void ArrayBHeap<T, C>::buildHeap(const std::vector<T> input)
 
 template <typename T, typename C>
 void ArrayBHeap<T, C>::heapify(T* arr, int n, int i) {
-	int largest = i; 
-	int left = 2 * i + 1; 
-	int right = 2 * i + 2; 
+	int smallest = i; // Index of the smallest element found so far (parent initially)
+	int left = 2 * i + 1;
+	int right = 2 * i + 2;
 
-	// If left child is larger than root
-	if (left < n && arr[left] > arr[largest]) { 
-		largest = left;
+	// Check left child: if it exists and is smaller than the current smallest
+	// Use the comparator: comparator(child, current_smallest) returns true if child is "smaller"
+	if (left < n && comparator(arr[left], arr[smallest])) {
+		smallest = left;
 	}
 
-	// If right child is larger than largest so far
-	if (right < n && arr[right] > arr[largest]) { 
-		largest = right;
+	// Check right child: if it exists and is smaller than the current smallest
+	if (right < n && comparator(arr[right], arr[smallest])) {
+		smallest = right;
 	}
 
-	// If largest is not root
-	if (largest != i) {
-		std::swap(arr[i], arr[largest]); // Swaps the root with the largest child 
+	// If the smallest element is not the root (parent)
+	if (smallest != i) {
+		// Swap the parent with the smallest child
+		std::swap(arr[i], arr[smallest]);
 
-		// Recursively heapify the affected sub-tree
-		heapify(arr, n, largest); 
+		// Recursively heapify the affected sub-tree (where the original parent moved to)
+		heapify(arr, n, smallest);
 	}
 }
 
@@ -245,5 +250,6 @@ void ArrayBHeap<T, C>::resizeArray(int newCapacity) // Pass the desired new capa
 }
 
 template class ArrayBHeap<int, compareint<int>>;
-template class ArrayBHeap<int, comparestring<std::string>>;
+template class ArrayBHeap<std::string, comparestring<std::string>>;
+template class ArrayBHeap<sumo, compareobj<sumo>>;
 

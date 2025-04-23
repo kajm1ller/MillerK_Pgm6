@@ -17,10 +17,13 @@ struct comparedouble {
 	}
 };
 
-template <typename T> // I keep getting fucking linker errors because of this
+
+
+template <typename T> // Consider renaming to CompareString for clarity
 struct comparestring {
-	bool operator()(const T& lhs, const T& rhs) const {
-		return sizeof(lhs) < sizeof(rhs);
+	// Ensure T is std::string or provide specialization
+	bool operator()(const std::string& lhs, const std::string& rhs) const {
+		return lhs < rhs; // Use string's built-in comparison
 	}
 };
 #ifndef BINARY_HEAP_INTERFACE_H

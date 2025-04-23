@@ -1,8 +1,10 @@
 #include <iostream>
 #include "BinaryHeapInterface.h"
 #include "ArrayBHeap.h"
+#include "Sumo.h"
 #include <vector>
 #include <string>
+
 
 int main() {
 
@@ -50,11 +52,26 @@ int main() {
 	heap.printHeap();
 
 	std::vector<std::string> sv = { "snake", "dog", "elephant", "rabbit", "bear" };
-	ArrayBHeap<std::string, compareint<std::string>> stringHeap;
+	ArrayBHeap<std::string, comparestring<std::string>> stringHeap;
 	stringHeap.buildHeap(sv);
 	std::cout << "-------------------------" << std::endl;
 	std::cout << "Current Array Size: " << stringHeap.getArraySize() << std::endl;
 	std::cout << "Current Heap Size: " << stringHeap.getHeapSize() << std::endl;
+
+	sumo s1, s2, s3;
+	s1.setName("Hakuho");
+	s1.setRank("Yokozuna");
+	s1.setWins(22);
+	s2.setName("Toshimitsu");
+	s2.setRank("Yokozuna");
+	s2.setWins(14);
+	s3.setName("Musashimaru");
+	s3.setRank("Yokozuna");
+	s3.setWins(36);
+	std::vector<sumo> vsumo = { s1, s2, s3 };
+	ArrayBHeap<sumo, compareobj<sumo>> sumoheap;
+	sumoheap.buildHeap(vsumo);
+	sumoheap.printHeap();
 
 
 

@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="ArrayBHeap.h" />
     <ClInclude Include="BinaryHeapInterface.h" />
+    <ClInclude Include="Sumo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
