@@ -17,12 +17,12 @@ ArrayBHeap<T, C>::ArrayBHeap() {
 }
 
 template <typename T, typename C>
-ArrayBHeap<T, C>::ArrayBHeap(const ArrayBHeap<T, C>& todd) { // change this from todd to an actual variable name you fucking moron
-	pArray = todd.pArray;
-	arraySize = todd.arraySize;
-	heapSize = todd.heapSize;
-	free = todd.free;
-	comparator = todd.comparator;
+ArrayBHeap<T, C>::ArrayBHeap(const ArrayBHeap<T, C>& initArray) { 
+	pArray = initArray.pArray;
+	arraySize = initArray.arraySize;
+	heapSize = initArray.heapSize;
+	free = initArray.free;
+	comparator = initArray.comparator;
 }
 
 template <typename T, typename C>
@@ -55,7 +55,7 @@ void ArrayBHeap<T, C>::buildHeap(const std::vector<T> input)
 	// Perform heapify operation using bubbleDown
 	// Start from the last non-leaf node and go up to the root
 	for (int i = (heapSize / 2) - 1; i >= 0; --i) {
-		bubbleDown(i); // Use bubbleDown to establish heap property
+		bubbleDown(i); 
 	}
 }
 

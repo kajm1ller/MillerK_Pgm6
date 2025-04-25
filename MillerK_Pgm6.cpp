@@ -57,6 +57,9 @@ int main() {
 	std::cout << "-------------------------" << std::endl;
 	std::cout << "Current Array Size: " << stringHeap.getArraySize() << std::endl;
 	std::cout << "Current Heap Size: " << stringHeap.getHeapSize() << std::endl;
+	std::cout << "Heap Elements: ";
+	stringHeap.printHeap();
+	std::cout << std::endl;
 
 	sumo s1, s2, s3;
 	s1.setName("Hakuho");

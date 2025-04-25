@@ -13,7 +13,7 @@ class ArrayBHeap : public BinaryHeapInterface<T>
 {
 public:
 	ArrayBHeap();
-	ArrayBHeap(const ArrayBHeap<T, C>& todd);
+	ArrayBHeap(const ArrayBHeap<T, C>& initArray);
 	~ArrayBHeap();
 	ArrayBHeap<T, C>& operator=(const ArrayBHeap<T, C>& other);
 	void buildHeap(const std::vector<T> input);
